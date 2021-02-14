@@ -1,5 +1,10 @@
 import { Component, Element, Host, h, Prop, State } from '@stencil/core';
 import Sun from './assets/sun.svg';
+import Drizzle from './assets/cloud-drizzle.svg';
+import Storm from './assets/cloud-lightning.svg';
+import Rain from './assets/cloud-rain.svg';
+import Snow from './assets/cloud-snow.svg';
+import Cloudy from './assets/cloud.svg';
 import Menu from './assets/menu.svg';
 import DownArrow from './assets/arrow-down.svg';
 
@@ -39,13 +44,38 @@ export class JmWeatherWidgetContainer {
     }
   };
 
+  private fetchWeatherIcon = (): string => {
+    const weatherId = this.weatherData['weather'][0]['id'];
+
+    switch(true) {
+      case (weatherId > 199 && weatherId < 233):
+        return Storm;
+      case (weatherId > 299 && weatherId < 322):
+        return Drizzle;
+      case (weatherId > 499 && weatherId < 532):
+        return Rain;
+      case (weatherId > 599 && weatherId < 623):
+        return Snow;
+      case (weatherId > 700 && weatherId < 782):
+        return Cloudy;
+      case (weatherId === 800):
+        return Sun;
+      case (weatherId > 800 && weatherId < 803):
+        return Sun;
+      case (weatherId > 802 && weatherId < 805):
+        return Cloudy;
+      default: 
+      return Cloudy;
+    }
+  }
+
   render() {
-    // console.log(this.weatherData, 'this is the render method');
+    const icon = this.weatherData && this.fetchWeatherIcon();
     return (
       <Host>
         <jm-weather-widget-menu-overlay />
         <header class="header-container">
-          <div class="weather-icon-container" innerHTML={Sun} />
+          <div class="weather-icon-container" innerHTML={icon} />
           <div class="info-container">
             <p class="temp">{this.weatherData && Math.round(this.weatherData['main']['temp'])}&deg;<span class="fahrenheit">F</span> </p>
             <h4 class="location">
