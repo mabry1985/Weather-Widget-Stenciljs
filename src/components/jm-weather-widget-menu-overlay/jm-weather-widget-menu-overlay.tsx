@@ -19,7 +19,6 @@ export class JmWeatherWidgetMenuOverlay {
     this.searchValue = e.target.value;
   }
 
-
   close = () => {
     this.menuOpen = false;
   }

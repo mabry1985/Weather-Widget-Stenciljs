@@ -9,7 +9,6 @@
   pointer-events: none;
   position: absolute;
   top: 0;
-  /* transition: opacity 0.5s ease-in; */
   width: 332px;
   z-index: 100;
 }
