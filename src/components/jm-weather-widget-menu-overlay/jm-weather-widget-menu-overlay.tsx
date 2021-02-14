@@ -40,7 +40,7 @@ export class JmWeatherWidgetMenuOverlay {
           <input type="submit" value="search" />
         </form>
         <footer>
-          Built with Stencil.js <a href="https://github.com/mabry1985/Weather-Widget-Stenciljs" target="_blank" >Github</a>
+          Built with Stencil.js - <a href="https://github.com/mabry1985/Weather-Widget-Stenciljs" target="_blank" >Github</a>
         </footer>
       </Host>
     );
