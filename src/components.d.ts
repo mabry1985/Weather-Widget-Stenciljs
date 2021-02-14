@@ -6,6 +6,8 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
+    interface JmWeatherWidgetContainer {
+    }
     interface MyComponent {
         /**
           * The first name
@@ -22,6 +24,12 @@ export namespace Components {
     }
 }
 declare global {
+    interface HTMLJmWeatherWidgetContainerElement extends Components.JmWeatherWidgetContainer, HTMLStencilElement {
+    }
+    var HTMLJmWeatherWidgetContainerElement: {
+        prototype: HTMLJmWeatherWidgetContainerElement;
+        new (): HTMLJmWeatherWidgetContainerElement;
+    };
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
     }
     var HTMLMyComponentElement: {
@@ -29,10 +37,13 @@ declare global {
         new (): HTMLMyComponentElement;
     };
     interface HTMLElementTagNameMap {
+        "jm-weather-widget-container": HTMLJmWeatherWidgetContainerElement;
         "my-component": HTMLMyComponentElement;
     }
 }
 declare namespace LocalJSX {
+    interface JmWeatherWidgetContainer {
+    }
     interface MyComponent {
         /**
           * The first name
@@ -48,6 +59,7 @@ declare namespace LocalJSX {
         "middle"?: string;
     }
     interface IntrinsicElements {
+        "jm-weather-widget-container": JmWeatherWidgetContainer;
         "my-component": MyComponent;
     }
 }
@@ -55,6 +67,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "jm-weather-widget-container": LocalJSX.JmWeatherWidgetContainer & JSXBase.HTMLAttributes<HTMLJmWeatherWidgetContainerElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
         }
     }
