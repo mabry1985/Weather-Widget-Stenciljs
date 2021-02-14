@@ -7,6 +7,7 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface JmWeatherWidgetContainer {
+        "drawerOpen": boolean;
     }
     interface MyComponent {
         /**
@@ -43,6 +44,7 @@ declare global {
 }
 declare namespace LocalJSX {
     interface JmWeatherWidgetContainer {
+        "drawerOpen"?: boolean;
     }
     interface MyComponent {
         /**

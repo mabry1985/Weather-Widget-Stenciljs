@@ -1,4 +1,4 @@
-import { Component, Host, h } from '@stencil/core';
+import { Component, Host, h, Prop } from '@stencil/core';
 import Sun from './assets/sun.svg';
 import Menu from './assets/menu.svg';
 import DownArrow from './assets/arrow-down.svg';
@@ -9,6 +9,14 @@ import DownArrow from './assets/arrow-down.svg';
   shadow: true,
 })
 export class JmWeatherWidgetContainer {
+  @Prop({ mutable: true, reflect: true }) drawerOpen: boolean = false;
+
+
+  toggleDrawer = () => {
+    this.drawerOpen = !this.drawerOpen; 
+    console.log("drawer toggled")
+  }
+
   render() {
     return (
       <Host>
@@ -20,7 +28,7 @@ export class JmWeatherWidgetContainer {
           </div>
           <div class="button-container">
             <div innerHTML={Menu} class="hamburger-menu" />
-            <div innerHTML={DownArrow} class="dropdown-button" />
+            <div onClick={this.toggleDrawer} innerHTML={DownArrow} class="dropdown-button" />
           </div>
         </div>
       </Host>

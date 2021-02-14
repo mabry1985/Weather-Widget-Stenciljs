@@ -10,9 +10,14 @@
   width: 300px;
 }
 
-:host([open]) {
+:host([drawer-open]) {
   height: 500px;
   transition: height 0.5s linear;
+}
+
+:host([drawer-open]) .dropdown-button {
+  transform: rotate(180deg);
+  transition: transform 0.5s linear;
 }
 
 .header-container {
@@ -71,14 +76,17 @@
 
 .dropdown-button {
   cursor: pointer;
+  transform: rotate(0deg);
+  transition: transform 0.5s linear;
 }
 
 .dropdown-button .feather {
   color: #5a5a5a;
   height: 15px;
+  padding-left: 3.5px;
   width: 15px;
-  padding-left: 3.5px
 }
+
 
 
 
