@@ -22,13 +22,8 @@ export class JmWeatherWidgetContainer {
   @Prop({ mutable: true, reflect: true }) drawerOpen: boolean = false;
 
   connectedCallback() {
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${this.defaultCity},${this.defaultState}&appid=${this.apiKey}&units=imperial`)
-      .then(res => {
-        return res.json();
-      })
-      .then(parsedRes => this.weatherData = parsedRes)
-      .catch(err => console.log(err));
-  };
+    this.fetchWeatherData();
+  }
 
   toggleDrawer = () => {
     this.drawerOpen = !this.drawerOpen;
@@ -47,26 +42,35 @@ export class JmWeatherWidgetContainer {
   private fetchWeatherIcon = (): string => {
     const weatherId = this.weatherData['weather'][0]['id'];
 
-    switch(true) {
-      case (weatherId > 199 && weatherId < 233):
+    switch (true) {
+      case weatherId > 199 && weatherId < 233:
         return Storm;
-      case (weatherId > 299 && weatherId < 322):
+      case weatherId > 299 && weatherId < 322:
         return Drizzle;
-      case (weatherId > 499 && weatherId < 532):
+      case weatherId > 499 && weatherId < 532:
         return Rain;
-      case (weatherId > 599 && weatherId < 623):
+      case weatherId > 599 && weatherId < 623:
         return Snow;
-      case (weatherId > 700 && weatherId < 782):
+      case weatherId > 700 && weatherId < 782:
         return Cloudy;
-      case (weatherId === 800):
+      case weatherId === 800:
         return Sun;
-      case (weatherId > 800 && weatherId < 803):
+      case weatherId > 800 && weatherId < 803:
         return Sun;
-      case (weatherId > 802 && weatherId < 805):
+      case weatherId > 802 && weatherId < 805:
         return Cloudy;
-      default: 
-      return Cloudy;
+      default:
+        return Cloudy;
     }
+  };
+
+  private fetchWeatherData(city: string = this.defaultCity, state: string = this.defaultState) {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},${state}&appid=${this.apiKey}&units=imperial`)
+      .then(res => {
+        return res.json();
+      })
+      .then(parsedRes => (this.weatherData = parsedRes))
+      .catch(err => console.log(err));
   }
 
   render() {
@@ -77,7 +81,9 @@ export class JmWeatherWidgetContainer {
         <header class="header-container">
           <div class="weather-icon-container" innerHTML={icon} />
           <div class="info-container">
-            <p class="temp">{this.weatherData && Math.round(this.weatherData['main']['temp'])}&deg;<span class="fahrenheit">F</span> </p>
+            <p class="temp">
+              {this.weatherData && Math.round(this.weatherData['main']['temp'])}&deg;<span class="fahrenheit">F</span>{' '}
+            </p>
             <h4 class="location">
               {this.weatherData && this.weatherData['name']}, {this.defaultState}
             </h4>
