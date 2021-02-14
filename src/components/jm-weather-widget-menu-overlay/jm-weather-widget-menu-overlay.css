@@ -1,0 +1,19 @@
+:host {
+  background: linear-gradient(white, #c4c4c4);
+  border-radius: 33px;
+  display: block;
+  height: 132px;
+  left:0;
+  position: absolute;
+  top:0;
+  width: 332px;
+  z-index: 100;
+}
+
+.close-menu-button {
+  color: #5a5a5a;
+  cursor: pointer;
+  font-family: sans-serif;
+  right:20px;
+  position: absolute;
+}

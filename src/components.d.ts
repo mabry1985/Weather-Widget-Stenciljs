@@ -9,6 +9,8 @@ export namespace Components {
     interface JmWeatherWidgetContainer {
         "drawerOpen": boolean;
     }
+    interface JmWeatherWidgetMenuOverlay {
+    }
     interface MyComponent {
         /**
           * The first name
@@ -31,6 +33,12 @@ declare global {
         prototype: HTMLJmWeatherWidgetContainerElement;
         new (): HTMLJmWeatherWidgetContainerElement;
     };
+    interface HTMLJmWeatherWidgetMenuOverlayElement extends Components.JmWeatherWidgetMenuOverlay, HTMLStencilElement {
+    }
+    var HTMLJmWeatherWidgetMenuOverlayElement: {
+        prototype: HTMLJmWeatherWidgetMenuOverlayElement;
+        new (): HTMLJmWeatherWidgetMenuOverlayElement;
+    };
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
     }
     var HTMLMyComponentElement: {
@@ -39,12 +47,15 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "jm-weather-widget-container": HTMLJmWeatherWidgetContainerElement;
+        "jm-weather-widget-menu-overlay": HTMLJmWeatherWidgetMenuOverlayElement;
         "my-component": HTMLMyComponentElement;
     }
 }
 declare namespace LocalJSX {
     interface JmWeatherWidgetContainer {
         "drawerOpen"?: boolean;
+    }
+    interface JmWeatherWidgetMenuOverlay {
     }
     interface MyComponent {
         /**
@@ -62,6 +73,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "jm-weather-widget-container": JmWeatherWidgetContainer;
+        "jm-weather-widget-menu-overlay": JmWeatherWidgetMenuOverlay;
         "my-component": MyComponent;
     }
 }
@@ -70,6 +82,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "jm-weather-widget-container": LocalJSX.JmWeatherWidgetContainer & JSXBase.HTMLAttributes<HTMLJmWeatherWidgetContainerElement>;
+            "jm-weather-widget-menu-overlay": LocalJSX.JmWeatherWidgetMenuOverlay & JSXBase.HTMLAttributes<HTMLJmWeatherWidgetMenuOverlayElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
         }
     }

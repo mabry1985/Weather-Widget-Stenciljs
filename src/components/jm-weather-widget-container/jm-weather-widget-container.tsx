@@ -20,6 +20,7 @@ export class JmWeatherWidgetContainer {
   render() {
     return (
       <Host>
+          <jm-weather-widget-menu-overlay></jm-weather-widget-menu-overlay>
         <header class="header-container">
           <div class="weather-icon-container" innerHTML={Sun} />
           <div class="info-container">

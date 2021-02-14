@@ -6,12 +6,13 @@
   height: 100px;
   overflow: hidden;
   padding: 1rem;
+  position: absolute;
   transition: height 0.5s linear;
   width: 300px;
 }
 
 :host([drawer-open]) {
-  height: 450px;
+  height: 440px;
   transition: height 0.5s linear;
 }
 
