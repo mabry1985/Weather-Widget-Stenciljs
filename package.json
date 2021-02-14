@@ -22,11 +22,11 @@
     "generate": "stencil generate"
   },
   "dependencies": {
-    "@stencil/core": "^2.0.1",
-    "feather-icons": "^4.28.0"
+    "@stencil/core": "^2.0.1"
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/jest": "^26.0.20"
+    "@types/jest": "^26.0.20",
+    "stencil-inline-svg": "^1.0.1"
   }
 }
