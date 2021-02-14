@@ -2,6 +2,7 @@
   background: linear-gradient(white, #c4c4c4);
   border-radius: 33px;
   display: flex;
+  flex-direction: column;
   height: 132px;
   left: 0;
   opacity: 0;
@@ -29,5 +30,14 @@
 }
 
 .search-form {
-  margin: auto;
+  margin: 40px auto;
+  margin-bottom: 30px;
+  padding-top: 15px;
+}
+
+footer {
+  color: #5a5a5a;
+  font-family: sans-serif;
+  font-size: 13px;
+  margin:  0 auto;
 }

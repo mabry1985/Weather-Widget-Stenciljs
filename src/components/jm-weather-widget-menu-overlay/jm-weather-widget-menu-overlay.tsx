@@ -32,11 +32,16 @@ export class JmWeatherWidgetMenuOverlay {
   render() {
     return (
       <Host>
-        <p onClick={this.close}class="close-menu-button">x</p>
+        <p onClick={this.close} class="close-menu-button">
+          x
+        </p>
         <form class="search-form" onSubmit={e => this.handleSubmit(e)}>
           <input type="text" value={this.searchValue} onInput={event => this.handleChange(event)} placeholder="Enter Zipcode..." />
           <input type="submit" value="search" />
         </form>
+        <footer>
+          Built with Stencil.js <a href="https://github.com/mabry1985/Weather-Widget-Stenciljs" target="_blank" >Github</a>
+        </footer>
       </Host>
     );
   }
