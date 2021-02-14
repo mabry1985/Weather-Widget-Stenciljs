@@ -9,21 +9,21 @@ import DownArrow from './assets/arrow-down.svg';
   shadow: true,
 })
 export class JmWeatherWidgetContainer {
-
   render() {
     return (
       <Host>
-        <div class="weather-icon-container" innerHTML={Sun} />
-        <div class="info-container">
-          <p class="temp">29f</p>
-          <h4 class="location">Portland, OR</h4>
-        </div>
-        <div class="button-container">
-          <div innerHTML={Menu} class="hamburger-menu"/>
-          <div innerHTML={DownArrow} class="dropdown-button"/>
+        <div class="header-container">
+          <div class="weather-icon-container" innerHTML={Sun} />
+          <div class="info-container">
+            <p class="temp">29f</p>
+            <h4 class="location">Portland, OR</h4>
+          </div>
+          <div class="button-container">
+            <div innerHTML={Menu} class="hamburger-menu" />
+            <div innerHTML={DownArrow} class="dropdown-button" />
+          </div>
         </div>
       </Host>
     );
   }
-
 }
