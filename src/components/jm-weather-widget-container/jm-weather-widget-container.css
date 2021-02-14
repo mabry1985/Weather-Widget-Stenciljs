@@ -55,7 +55,7 @@
 .temp {
   font-size: 40px;
   margin: 0;
-  padding-right: 1rem;
+  padding-right: 20px;
 }
 
 .button-container {
@@ -84,7 +84,7 @@
 .dropdown-button .feather {
   color: #5a5a5a;
   height: 15px;
-  padding-left: 3.5px;
+  padding-left: 5px;
   width: 15px;
 }
 
@@ -119,6 +119,10 @@
 .temperature {
   flex-grow: 2;
   padding-top: 6px;
+}
+
+.fahrenheit {
+  font-size: 20px;
 }
 
 
