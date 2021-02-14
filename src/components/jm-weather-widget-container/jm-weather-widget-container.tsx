@@ -11,8 +11,8 @@ export class JmWeatherWidgetContainer {
   render() {
     return (
       <Host>
+        <div class="svg-container" innerHTML={Sun}></div>
         <div class="info-container">
-          <div class="svg-container" innerHTML={Sun}></div>
           <p class="temp">29f</p>
           <h4 class="location">Portland, OR</h4>
         </div>
