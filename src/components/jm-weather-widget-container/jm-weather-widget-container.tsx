@@ -17,7 +17,9 @@ export class JmWeatherWidgetContainer {
   };
 
   openMenu = () => {
-    this.el.shadowRoot.querySelector('jm-weather-widget-menu-overlay').open();
+    this.drawerOpen = false;
+    const menuOverlay = this.el.shadowRoot.querySelector('jm-weather-widget-menu-overlay');
+    setTimeout(() => menuOverlay.open(), 500)
   };
 
   render() {
