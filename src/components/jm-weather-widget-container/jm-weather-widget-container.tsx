@@ -20,7 +20,7 @@ export class JmWeatherWidgetContainer {
   render() {
     return (
       <Host>
-        <div class="header-container">
+        <header class="header-container">
           <div class="weather-icon-container" innerHTML={Sun} />
           <div class="info-container">
             <p class="temp">29f</p>
@@ -30,7 +30,34 @@ export class JmWeatherWidgetContainer {
             <div innerHTML={Menu} class="hamburger-menu" />
             <div onClick={this.toggleDrawer} innerHTML={DownArrow} class="dropdown-button" />
           </div>
-        </div>
+        </header>
+        <content class="forecast-container">
+          <div class="forecast">
+            <h3 class="day">Mon</h3>
+            <p class="temperature">L: 36f / H: 54f</p>
+            <div innerHTML={Sun} />
+          </div>
+          <div class="forecast">
+            <h3 class="day">Tue</h3>
+            <p class="temperature">L: 36f / H: 54f</p>
+            <div innerHTML={Sun} />
+          </div>
+          <div class="forecast">
+            <h3 class="day">Wed</h3>
+            <p class="temperature">L: 36f / H: 54f</p>
+            <div innerHTML={Sun} />
+          </div>
+          <div class="forecast">
+            <h3 class="day">Thur</h3>
+            <p class="temperature">L: 36f / H: 54f</p>
+            <div innerHTML={Sun} />
+          </div>
+          <div class="forecast">
+            <h3 class="day">Fri</h3>
+            <p class="temperature">L: 36f / H: 54f</p>
+            <div innerHTML={Sun} />
+          </div>
+        </content>
       </Host>
     );
   }
