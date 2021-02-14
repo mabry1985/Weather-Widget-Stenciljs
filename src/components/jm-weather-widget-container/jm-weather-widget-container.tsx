@@ -1,4 +1,4 @@
-import { Component, Element, Host, h, Prop } from '@stencil/core';
+import { Component, Element, Host, h, Prop, State } from '@stencil/core';
 import Sun from './assets/sun.svg';
 import Menu from './assets/menu.svg';
 import DownArrow from './assets/arrow-down.svg';
@@ -9,8 +9,21 @@ import DownArrow from './assets/arrow-down.svg';
   shadow: true,
 })
 export class JmWeatherWidgetContainer {
+  @State() weatherData: any;
   @Element() el: HTMLElement;
+  @Prop() apiKey: string;
+  @Prop() defaultCity: string;
+  @Prop() defaultState: string;
   @Prop({ mutable: true, reflect: true }) drawerOpen: boolean = false;
+
+  connectedCallback() {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${this.defaultCity},${this.defaultState}&appid=${this.apiKey}&units=imperial`)
+      .then(res => {
+        return res.json();
+      })
+      .then(parsedRes => this.weatherData = parsedRes)
+      .catch(err => console.log(err));
+  };
 
   toggleDrawer = () => {
     this.drawerOpen = !this.drawerOpen;
@@ -18,23 +31,26 @@ export class JmWeatherWidgetContainer {
 
   openMenu = () => {
     const menuOverlay = this.el.shadowRoot.querySelector('jm-weather-widget-menu-overlay');
-    if(this.drawerOpen) {
+    if (this.drawerOpen) {
       this.drawerOpen = false;
-      setTimeout(() => menuOverlay.open(), 500)
+      setTimeout(() => menuOverlay.open(), 500);
     } else {
       menuOverlay.open();
     }
   };
 
   render() {
+    // console.log(this.weatherData, 'this is the render method');
     return (
       <Host>
         <jm-weather-widget-menu-overlay />
         <header class="header-container">
           <div class="weather-icon-container" innerHTML={Sun} />
           <div class="info-container">
-            <p class="temp">29f</p>
-            <h4 class="location">Portland, OR</h4>
+            <p class="temp">{this.weatherData && Math.round(this.weatherData['main']['temp'])}&deg;<span class="fahrenheit">F</span> </p>
+            <h4 class="location">
+              {this.weatherData && this.weatherData['name']}, {this.defaultState}
+            </h4>
           </div>
           <div class="button-container">
             <div onClick={this.openMenu} innerHTML={Menu} class="hamburger-menu" />

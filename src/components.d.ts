@@ -7,6 +7,9 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface JmWeatherWidgetContainer {
+        "apiKey": string;
+        "defaultCity": string;
+        "defaultState": string;
         "drawerOpen": boolean;
     }
     interface JmWeatherWidgetMenuOverlay {
@@ -55,6 +58,9 @@ declare global {
 }
 declare namespace LocalJSX {
     interface JmWeatherWidgetContainer {
+        "apiKey"?: string;
+        "defaultCity"?: string;
+        "defaultState"?: string;
         "drawerOpen"?: boolean;
     }
     interface JmWeatherWidgetMenuOverlay {
