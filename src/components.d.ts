@@ -10,6 +10,8 @@ export namespace Components {
         "drawerOpen": boolean;
     }
     interface JmWeatherWidgetMenuOverlay {
+        "menuOpen": boolean;
+        "open": () => Promise<void>;
     }
     interface MyComponent {
         /**
@@ -56,6 +58,7 @@ declare namespace LocalJSX {
         "drawerOpen"?: boolean;
     }
     interface JmWeatherWidgetMenuOverlay {
+        "menuOpen"?: boolean;
     }
     interface MyComponent {
         /**

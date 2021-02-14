@@ -1,4 +1,4 @@
-import { Component, Host, h } from '@stencil/core';
+import { Component, Host, h, Method, State, Prop } from '@stencil/core';
 
 @Component({
   tag: 'jm-weather-widget-menu-overlay',
@@ -6,13 +6,38 @@ import { Component, Host, h } from '@stencil/core';
   shadow: true,
 })
 export class JmWeatherWidgetMenuOverlay {
+  @State() searchValue: string;
+  @Prop({ reflect: true, mutable: true }) menuOpen: boolean = false;
+ 
+  handleSubmit(e: Event){
+    e.preventDefault();
+    this.close();
+    console.log(this.searchValue);
+  }
+
+  handleChange(e: any) {
+    this.searchValue = e.target.value;
+  }
+
+
+  close = () => {
+    this.menuOpen = false;
+  }
+
+  @Method()
+  async open() {
+    this.menuOpen = true;
+  }
 
   render() {
     return (
       <Host>
-        <p class="close-menu-button">x</p>
+        <p onClick={this.close}class="close-menu-button">x</p>
+        <form class="search-form" onSubmit={e => this.handleSubmit(e)}>
+          <input type="text" value={this.searchValue} onInput={event => this.handleChange(event)} placeholder="Enter Zipcode..." />
+          <input type="submit" value="search" />
+        </form>
       </Host>
     );
   }
-
 }
