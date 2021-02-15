@@ -21,9 +21,9 @@ export class JmWeatherWidgetMenuOverlay {
     const trimmedStateInput = this.stateValue.trim()
     const trimmedCityInput = this.cityValue.trim()
     this.jmFetchWeather.emit([trimmedCityInput, trimmedStateInput]);
-    this.close();
     this.cityValue = '';
     this.stateValue = '';
+    this.close();
   };
 
   handleCityChange = (e: any) => {
