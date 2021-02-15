@@ -87,6 +87,10 @@ export class JmWeatherWidgetContainer {
       .catch(err => console.log(err, 'error'));
   }
 
+  capitalizeFirstLetter = (string: string) =>{
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
   render() {
     const icon = this.weatherData && this.fetchWeatherIcon();
     return (
@@ -99,7 +103,7 @@ export class JmWeatherWidgetContainer {
               {this.weatherData && Math.round(this.weatherData['main']['temp'])}&deg;<span class="fahrenheit">F</span>{' '}
             </p>
             <h4 class="location">
-              {this.weatherData && this.weatherData['name']}, {this.state}
+              {this.weatherData && this.weatherData['name']}, {this.capitalizeFirstLetter(this.state)}
             </h4>
           </div>
           <div class="button-container">
