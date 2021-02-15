@@ -15,8 +15,10 @@ export class JmWeatherWidgetMenuOverlay {
 
   handleSubmit = (e: Event) => {
     e.preventDefault();
+    this.jmFetchWeather.emit([this.cityValue, this.stateValue]);
     this.close();
-    this.jmFetchWeather.emit([this.cityValue, this.stateValue])
+    this.cityValue = "";
+    this.stateValue = "";
   }
 
   handleCityChange = (e: any) => {
@@ -35,8 +37,6 @@ export class JmWeatherWidgetMenuOverlay {
   async open() {
     this.menuOpen = true;
   }
-
-
 
   render() {
     return (
