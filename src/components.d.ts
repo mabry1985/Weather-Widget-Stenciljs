@@ -12,6 +12,8 @@ export namespace Components {
         "defaultState": string;
         "drawerOpen": boolean;
     }
+    interface JmWeatherWidgetLoadingSpinner {
+    }
     interface JmWeatherWidgetMenuOverlay {
         "menuOpen": boolean;
         "open": () => Promise<void>;
@@ -38,6 +40,12 @@ declare global {
         prototype: HTMLJmWeatherWidgetContainerElement;
         new (): HTMLJmWeatherWidgetContainerElement;
     };
+    interface HTMLJmWeatherWidgetLoadingSpinnerElement extends Components.JmWeatherWidgetLoadingSpinner, HTMLStencilElement {
+    }
+    var HTMLJmWeatherWidgetLoadingSpinnerElement: {
+        prototype: HTMLJmWeatherWidgetLoadingSpinnerElement;
+        new (): HTMLJmWeatherWidgetLoadingSpinnerElement;
+    };
     interface HTMLJmWeatherWidgetMenuOverlayElement extends Components.JmWeatherWidgetMenuOverlay, HTMLStencilElement {
     }
     var HTMLJmWeatherWidgetMenuOverlayElement: {
@@ -52,6 +60,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "jm-weather-widget-container": HTMLJmWeatherWidgetContainerElement;
+        "jm-weather-widget-loading-spinner": HTMLJmWeatherWidgetLoadingSpinnerElement;
         "jm-weather-widget-menu-overlay": HTMLJmWeatherWidgetMenuOverlayElement;
         "my-component": HTMLMyComponentElement;
     }
@@ -62,6 +71,8 @@ declare namespace LocalJSX {
         "defaultCity"?: string;
         "defaultState"?: string;
         "drawerOpen"?: boolean;
+    }
+    interface JmWeatherWidgetLoadingSpinner {
     }
     interface JmWeatherWidgetMenuOverlay {
         "menuOpen"?: boolean;
@@ -83,6 +94,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "jm-weather-widget-container": JmWeatherWidgetContainer;
+        "jm-weather-widget-loading-spinner": JmWeatherWidgetLoadingSpinner;
         "jm-weather-widget-menu-overlay": JmWeatherWidgetMenuOverlay;
         "my-component": MyComponent;
     }
@@ -92,6 +104,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "jm-weather-widget-container": LocalJSX.JmWeatherWidgetContainer & JSXBase.HTMLAttributes<HTMLJmWeatherWidgetContainerElement>;
+            "jm-weather-widget-loading-spinner": LocalJSX.JmWeatherWidgetLoadingSpinner & JSXBase.HTMLAttributes<HTMLJmWeatherWidgetLoadingSpinnerElement>;
             "jm-weather-widget-menu-overlay": LocalJSX.JmWeatherWidgetMenuOverlay & JSXBase.HTMLAttributes<HTMLJmWeatherWidgetMenuOverlayElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
         }
