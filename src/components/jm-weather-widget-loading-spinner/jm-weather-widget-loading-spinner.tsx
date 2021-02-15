@@ -10,7 +10,12 @@ export class JmWeatherWidgetLoadingSpinner {
   render() {
     return (
       <Host>
-        <slot></slot>
+        <div class="lds-ellipsis">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
       </Host>
     );
   }
