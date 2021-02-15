@@ -14,10 +14,12 @@ import DownArrow from './assets/arrow-down.svg';
   shadow: true,
 })
 export class JmWeatherWidgetContainer {
+  @Element() el: HTMLElement;
+  
   @State() weatherData: any;
   @State() city: any;
   @State() state: any;
-  @Element() el: HTMLElement;
+  
   @Prop() apiKey: string;
   @Prop() defaultCity: string = 'Portland';
   @Prop() defaultState: string = 'Oregon';
@@ -77,6 +79,9 @@ export class JmWeatherWidgetContainer {
   private fetchWeatherData(city: string = this.defaultCity, state: string = this.defaultState) {
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},${state}&appid=${this.apiKey}&units=imperial`)
       .then(res => {
+        if (res.status !== 200) {
+          throw new Error('Invalid search, please try again.')
+        }
         return res.json();
       })
       .then(parsedRes => {
@@ -115,6 +120,7 @@ export class JmWeatherWidgetContainer {
             <div onClick={this.toggleDrawer} innerHTML={DownArrow} class="dropdown-button" />
           </div>
         </header>
+        
         <content class="forecast-container">
           <div class="forecast">
             <h3 class="day">Mon</h3>
