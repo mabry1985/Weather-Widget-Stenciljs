@@ -15,11 +15,12 @@ import DownArrow from './assets/arrow-down.svg';
 })
 export class JmWeatherWidgetContainer {
   @Element() el: HTMLElement;
-  
+
   @State() weatherData: any;
   @State() city: any;
   @State() state: any;
-  
+  @State() isLoading: boolean = true;
+
   @Prop() apiKey: string;
   @Prop() defaultCity: string = 'Portland';
   @Prop() defaultState: string = 'Oregon';
@@ -46,7 +47,7 @@ export class JmWeatherWidgetContainer {
     const menuOverlay = this.el.shadowRoot.querySelector('jm-weather-widget-menu-overlay');
     if (this.drawerOpen) {
       this.drawerOpen = false;
-      setTimeout(() => menuOverlay.open(), 500);
+      setTimeout(() => {menuOverlay.open()}, 500);
     } else {
       menuOverlay.open();
     }
@@ -76,11 +77,13 @@ export class JmWeatherWidgetContainer {
     }
   };
 
-  private fetchWeatherData(city: string = this.defaultCity, state: string = this.defaultState) {
+  private fetchWeatherData = (city: string = this.defaultCity, state: string = this.defaultState) => {
+    this.isLoading = true;
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},${state}&appid=${this.apiKey}&units=imperial`)
       .then(res => {
         if (res.status !== 200) {
-          throw new Error('Invalid search, please try again.')
+          this.isLoading = false;
+          throw new Error('Invalid search, please try again.');
         }
         return res.json();
       })
@@ -88,9 +91,13 @@ export class JmWeatherWidgetContainer {
         this.weatherData = parsedRes;
         this.city = city;
         this.state = state;
+        this.isLoading = false;
       })
-      .catch(err => console.log(err, 'error'));
-  }
+      .catch(err => {
+        console.log(err, 'error');
+        this.isLoading = false;
+      });
+  };
 
   capitalizeFirstLetter = (string: string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -102,25 +109,35 @@ export class JmWeatherWidgetContainer {
     const city = this.weatherData && this.weatherData['name'];
     const state = this.weatherData && this.capitalizeFirstLetter(this.state);
 
+    let content = (
+      <header class="header-container">
+        <div class="weather-icon-container" innerHTML={icon} />
+        <div class="info-container">
+          <p class="temp">
+            {temp}&deg;<span class="fahrenheit">F</span>{' '}
+          </p>
+          <h4 class="location">
+            {city}, {state}
+          </h4>
+        </div>
+        <div class="button-container">
+          <div onClick={this.openMenu} innerHTML={Menu} class="hamburger-menu" />
+          <div onClick={this.toggleDrawer} innerHTML={DownArrow} class="dropdown-button" />
+        </div>
+      </header>
+    );
+    this.isLoading
+      ? (content = (
+          <header class="header-container">
+            <jm-weather-widget-loading-spinner />
+          </header>
+        ))
+      : null;
+
     return (
       <Host>
         <jm-weather-widget-menu-overlay />
-        <header class="header-container">
-          <div class="weather-icon-container" innerHTML={icon} />
-          <div class="info-container">
-            <p class="temp">
-              {temp}&deg;<span class="fahrenheit">F</span>{' '}
-            </p>
-            <h4 class="location">
-              {city}, {state}
-            </h4>
-          </div>
-          <div class="button-container">
-            <div onClick={this.openMenu} innerHTML={Menu} class="hamburger-menu" />
-            <div onClick={this.toggleDrawer} innerHTML={DownArrow} class="dropdown-button" />
-          </div>
-        </header>
-        
+        <div class="header-container">{content}</div>
         <content class="forecast-container">
           <div class="forecast">
             <h3 class="day">Mon</h3>
