@@ -65,6 +65,7 @@ declare namespace LocalJSX {
     }
     interface JmWeatherWidgetMenuOverlay {
         "menuOpen"?: boolean;
+        "onJmFetchWeather"?: (event: CustomEvent<string[]>) => void;
     }
     interface MyComponent {
         /**

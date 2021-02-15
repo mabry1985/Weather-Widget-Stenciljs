@@ -1,4 +1,4 @@
-import { Component, Element, Host, h, Prop, State } from '@stencil/core';
+import { Component, Element, Host, h, Prop, State, Listen } from '@stencil/core';
 import Sun from './assets/sun.svg';
 import Drizzle from './assets/cloud-drizzle.svg';
 import Storm from './assets/cloud-lightning.svg';
@@ -15,13 +15,17 @@ import DownArrow from './assets/arrow-down.svg';
 })
 export class JmWeatherWidgetContainer {
   @State() weatherData: any;
+  @State() city: any;
+  @State() state: any;
   @Element() el: HTMLElement;
   @Prop() apiKey: string;
-  @Prop() defaultCity: string;
-  @Prop() defaultState: string;
+  @Prop() defaultCity: string = 'Portland';
+  @Prop() defaultState: string = 'Oregon';
   @Prop({ mutable: true, reflect: true }) drawerOpen: boolean = false;
 
   connectedCallback() {
+    this.city = this.defaultCity;
+    this.state = this.defaultState;
     this.fetchWeatherData();
   }
 
@@ -41,7 +45,6 @@ export class JmWeatherWidgetContainer {
 
   private fetchWeatherIcon = (): string => {
     const weatherId = this.weatherData['weather'][0]['id'];
-
     switch (true) {
       case weatherId > 199 && weatherId < 233:
         return Storm;
@@ -64,13 +67,24 @@ export class JmWeatherWidgetContainer {
     }
   };
 
+  @Listen('jmFetchWeather')
+  onSearchSubmit(event: CustomEvent) {
+    if (event.detail) {
+      this.fetchWeatherData(event.detail[0], event.detail[1])
+    }
+  }
+
   private fetchWeatherData(city: string = this.defaultCity, state: string = this.defaultState) {
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},${state}&appid=${this.apiKey}&units=imperial`)
       .then(res => {
         return res.json();
       })
-      .then(parsedRes => (this.weatherData = parsedRes))
-      .catch(err => console.log(err));
+      .then(parsedRes => {
+        this.weatherData = parsedRes
+        this.city = city;
+        this.state = state;
+      })
+      .catch(err => console.log(err, 'error'));
   }
 
   render() {
@@ -85,7 +99,7 @@ export class JmWeatherWidgetContainer {
               {this.weatherData && Math.round(this.weatherData['main']['temp'])}&deg;<span class="fahrenheit">F</span>{' '}
             </p>
             <h4 class="location">
-              {this.weatherData && this.weatherData['name']}, {this.defaultState}
+              {this.weatherData && this.weatherData['name']}, {this.state}
             </h4>
           </div>
           <div class="button-container">
