@@ -45,6 +45,10 @@
   width: 20px;
 }
 
+#submit-button[disabled] {
+  cursor: not-allowed;
+}
+
 footer {
   color: #5a5a5a;
   font-family: sans-serif;
