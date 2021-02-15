@@ -15,6 +15,7 @@ import DownArrow from './assets/arrow-down.svg';
 })
 export class JmWeatherWidgetContainer {
   @State() weatherData: any;
+  @State() forecastData: any;
   @State() city: any;
   @State() state: any;
   @Element() el: HTMLElement;
@@ -23,10 +24,19 @@ export class JmWeatherWidgetContainer {
   @Prop() defaultState: string = 'Oregon';
   @Prop({ mutable: true, reflect: true }) drawerOpen: boolean = false;
 
+  @Listen('jmFetchWeather')
+  onSearchSubmit(event: CustomEvent) {
+    if (event.detail) {
+      this.fetchWeatherData(event.detail[0], event.detail[1]);
+      this.fetchWeatherForecastData(event.detail[0], event.detail[1]);
+    }
+  }
+
   connectedCallback() {
     this.city = this.defaultCity;
     this.state = this.defaultState;
     this.fetchWeatherData();
+    this.fetchWeatherForecastData();
   }
 
   toggleDrawer = () => {
@@ -67,32 +77,40 @@ export class JmWeatherWidgetContainer {
     }
   };
 
-  @Listen('jmFetchWeather')
-  onSearchSubmit(event: CustomEvent) {
-    if (event.detail) {
-      this.fetchWeatherData(event.detail[0], event.detail[1])
-    }
-  }
-
   private fetchWeatherData(city: string = this.defaultCity, state: string = this.defaultState) {
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},${state}&appid=${this.apiKey}&units=imperial`)
       .then(res => {
         return res.json();
       })
       .then(parsedRes => {
-        this.weatherData = parsedRes
+        this.weatherData = parsedRes;
         this.city = city;
         this.state = state;
       })
       .catch(err => console.log(err, 'error'));
   }
 
-  capitalizeFirstLetter = (string: string) =>{
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
+  private fetchWeatherForecastData(city: string = this.defaultCity, state: string = this.defaultState) {
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city},${state}&appid=${this.apiKey}&units=imperial`)
+      .then(res => {
+        return res.json();
+      })
+      .then(parsedRes => {
+        this.forecastData = parsedRes;
+      })
+      .catch(err => console.log(err, 'error'));
+  }
+
+  capitalizeFirstLetter = (string: string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
 
   render() {
     const icon = this.weatherData && this.fetchWeatherIcon();
+    const temp = this.weatherData && Math.floor(this.weatherData['main']['temp']);
+    const city = this.weatherData && this.weatherData['name'];
+    const state = this.weatherData && this.capitalizeFirstLetter(this.state);
+
     return (
       <Host>
         <jm-weather-widget-menu-overlay />
@@ -100,10 +118,10 @@ export class JmWeatherWidgetContainer {
           <div class="weather-icon-container" innerHTML={icon} />
           <div class="info-container">
             <p class="temp">
-              {this.weatherData && Math.round(this.weatherData['main']['temp'])}&deg;<span class="fahrenheit">F</span>{' '}
+              {temp}&deg;<span class="fahrenheit">F</span>{' '}
             </p>
             <h4 class="location">
-              {this.weatherData && this.weatherData['name']}, {this.capitalizeFirstLetter(this.state)}
+              {city}, {state}
             </h4>
           </div>
           <div class="button-container">
@@ -114,27 +132,27 @@ export class JmWeatherWidgetContainer {
         <content class="forecast-container">
           <div class="forecast">
             <h3 class="day">Mon</h3>
-            <p class="temperature">L: 36f / H: 54f</p>
-            <div innerHTML={Sun} />
+            <p class="temperature">L: 36&deg;f / H: 54&deg;f</p>
+            <div innerHTML={Cloudy} />
           </div>
           <div class="forecast">
             <h3 class="day">Tue</h3>
-            <p class="temperature">L: 36f / H: 54f</p>
-            <div innerHTML={Sun} />
+            <p class="temperature">L: 36&deg;f / H: 54&deg;f</p>
+            <div innerHTML={Cloudy} />
           </div>
           <div class="forecast">
             <h3 class="day">Wed</h3>
-            <p class="temperature">L: 36f / H: 54f</p>
-            <div innerHTML={Sun} />
+            <p class="temperature">L: 36&deg;f / H: 54&deg;f</p>
+            <div innerHTML={Rain} />
           </div>
           <div class="forecast">
             <h3 class="day">Thur</h3>
-            <p class="temperature">L: 36f / H: 54f</p>
+            <p class="temperature">L: 36&deg;f / H: 54&deg;f</p>
             <div innerHTML={Sun} />
           </div>
           <div class="forecast">
             <h3 class="day">Fri</h3>
-            <p class="temperature">L: 36f / H: 54f</p>
+            <p class="temperature">L: 36&deg;f / H: 54&deg;f</p>
             <div innerHTML={Sun} />
           </div>
         </content>
