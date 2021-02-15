@@ -8,30 +8,43 @@ import { Component, Event, Host, h, Method, State, Prop, EventEmitter } from '@s
 export class JmWeatherWidgetMenuOverlay {
   @State() cityValue: string;
   @State() stateValue: string;
-  @Prop({ reflect: true, mutable: true }) menuOpen: boolean = false;
- 
-  @Event({ bubbles: true, composed: true }) jmFetchWeather: EventEmitter<string[]>
+  @State() loading: boolean = false;
+  @State() error: string;
+  @State() cityInputValid: boolean = false;
+  @State() stateInputValid: boolean = false;
 
+  @Prop({ reflect: true, mutable: true }) menuOpen: boolean = false;
+  @Event({ bubbles: true, composed: true }) jmFetchWeather: EventEmitter<string[]>;
 
   handleSubmit = (e: Event) => {
     e.preventDefault();
     this.jmFetchWeather.emit([this.cityValue, this.stateValue]);
     this.close();
-    this.cityValue = "";
-    this.stateValue = "";
-  }
+    this.cityValue = '';
+    this.stateValue = '';
+  };
 
   handleCityChange = (e: any) => {
     this.cityValue = e.target.value;
-  }
+    if (this.cityValue.trim() !== '') {
+      this.cityInputValid = true;
+    } else {
+      this.cityInputValid = false;
+    }
+  };
 
   handleStateChange = (e: any) => {
     this.stateValue = e.target.value;
-  }
+    if (this.stateValue.trim() !== '') {
+      this.stateInputValid = true;
+    } else {
+      this.stateInputValid = false;
+    }
+  };
 
-  close = () => {
+  private close = () => {
     this.menuOpen = false;
-  }
+  };
 
   @Method()
   async open() {
@@ -47,10 +60,13 @@ export class JmWeatherWidgetMenuOverlay {
         <form class="search-form" onSubmit={e => this.handleSubmit(e)}>
           <input type="text" value={this.cityValue} onInput={event => this.handleCityChange(event)} placeholder="City..." />
           <input type="text" value={this.stateValue} onInput={event => this.handleStateChange(event)} placeholder="State..." />
-          <input id="submit-button" type="submit" value=">" />
+          <input id="submit-button" type="submit" value=">" disabled={!this.cityInputValid || !this.stateInputValid} />
         </form>
         <footer>
-          Built with Stencil.js - <a href="https://github.com/mabry1985/Weather-Widget-Stenciljs" target="_blank" >Github</a>
+          Built with Stencil.js -{' '}
+          <a href="https://github.com/mabry1985/Weather-Widget-Stenciljs" target="_blank">
+            Github
+          </a>
         </footer>
       </Host>
     );
