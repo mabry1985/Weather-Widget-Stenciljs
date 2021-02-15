@@ -15,7 +15,6 @@ import DownArrow from './assets/arrow-down.svg';
 })
 export class JmWeatherWidgetContainer {
   @State() weatherData: any;
-  @State() forecastData: any;
   @State() city: any;
   @State() state: any;
   @Element() el: HTMLElement;
@@ -28,7 +27,6 @@ export class JmWeatherWidgetContainer {
   onSearchSubmit(event: CustomEvent) {
     if (event.detail) {
       this.fetchWeatherData(event.detail[0], event.detail[1]);
-      this.fetchWeatherForecastData(event.detail[0], event.detail[1]);
     }
   }
 
@@ -36,7 +34,6 @@ export class JmWeatherWidgetContainer {
     this.city = this.defaultCity;
     this.state = this.defaultState;
     this.fetchWeatherData();
-    this.fetchWeatherForecastData();
   }
 
   toggleDrawer = () => {
@@ -86,17 +83,6 @@ export class JmWeatherWidgetContainer {
         this.weatherData = parsedRes;
         this.city = city;
         this.state = state;
-      })
-      .catch(err => console.log(err, 'error'));
-  }
-
-  private fetchWeatherForecastData(city: string = this.defaultCity, state: string = this.defaultState) {
-    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city},${state}&appid=${this.apiKey}&units=imperial`)
-      .then(res => {
-        return res.json();
-      })
-      .then(parsedRes => {
-        this.forecastData = parsedRes;
       })
       .catch(err => console.log(err, 'error'));
   }
